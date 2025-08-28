@@ -4,24 +4,28 @@ import AiAssistantForm, { type AiFormData } from "./AiAssistantForm";
 
 type Props = {
   aiOpen: boolean;
-  setAiOpen: (v: boolean) => void;
-  onStart: () => void; // close & clear fields (parent decides)
+  onBotTyping: (is: boolean) => void;
   onDelta: (field: "subject" | "body", delta: string) => void;
   onDone?: () => void;
-  onBotTyping: (is: boolean) => void;
+  onError: (error: string) => void;
+  onStart: () => void;
+  setAiOpen: (v: boolean) => void;
 };
 
 const AiModalAssistant = ({
   aiOpen,
-  setAiOpen,
-  onStart,
+  onBotTyping,
   onDelta,
   onDone,
-  onBotTyping,
+  onError,
+  onStart,
+  setAiOpen,
 }: Props) => {
   const abortControllerRef = useRef<AbortController | null>(null);
 
   const streamNdjson = async (data: AiFormData, signal?: AbortSignal) => {
+    onError("");
+
     const res = await fetch("/api/ai/draft", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,7 +33,13 @@ const AiModalAssistant = ({
       signal: signal ?? null,
     });
 
-    if (!res.body) return;
+    if (!res.ok) {
+      onError("Something went wrong, please try again later.");
+    }
+
+    if (!res.body) {
+      return;
+    }
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder();

@@ -43,6 +43,7 @@ export default function Home() {
   } = form;
 
   const [info, setInfo] = useState("");
+  const [error, setError] = useState("");
   const [aiOpen, setAiOpen] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
 
@@ -125,6 +126,7 @@ export default function Home() {
 
           <Box className="flex items-center gap-2 space justify-between">
             <Box>
+              {error && <p className="text-red-500">{error}</p>}
               {isBotTyping && (
                 <Box className="flex items-center gap-2">
                   🤖 <TypingIndicator />
@@ -146,6 +148,7 @@ export default function Home() {
         onStart={handleAIStart}
         onDelta={handleAIDelta}
         onBotTyping={setIsBotTyping}
+        onError={setError}
       />
     </FormProvider>
   );
