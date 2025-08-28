@@ -49,7 +49,7 @@ export default function Home() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await axios.post<Email>("/api/emails+", data);
+      const res = await axios.post<Email>("/api/emails", data);
 
       queryClient.setQueryData(EMAIL_QUERY_KEY, (old: Email[] | undefined) => [
         res.data,
@@ -69,8 +69,6 @@ export default function Home() {
       setInfo("❌ Something went wrong, please try again later.");
     }
   };
-
-  console.log({ info });
 
   return (
     <>
