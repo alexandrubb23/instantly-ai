@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, DialogActions, Stack, TextField } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Box, Button, DialogActions, Stack } from "@mui/material";
+import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
+import FormInput from "../ui/form/FormInput";
 
 export type AiFormData = z.infer<typeof schema>;
 
@@ -16,12 +17,12 @@ type Props = {
 };
 
 const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {
-  const { register, formState, reset, handleSubmit } = useForm({
+  const form = useForm({
     resolver: zodResolver(schema),
     mode: "onChange",
   });
 
-  const { errors } = formState;
+  const { formState, reset, handleSubmit } = form;
 
   const resetModalFields = () => {
     reset({ prompt: "", recipient: "" });
@@ -38,38 +39,28 @@ const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {
   };
 
   return (
-    <form onSubmit={submit}>
-      <Stack spacing={2} sx={{ mt: 1 }}>
-        <Box>
-          <TextField
-            {...register("prompt")}
-            fullWidth
-            label="What should the email be about?"
-          />
-          {errors.prompt?.message && (
-            <p style={{ color: "red", margin: 0 }}>{errors.prompt.message}</p>
-          )}
-        </Box>
-        <Box>
-          <TextField
-            {...register("recipient")}
-            fullWidth
-            label="Recipient business (optional)"
-          />
-          {errors.recipient?.message && (
-            <p style={{ color: "red", margin: 0 }}>
-              {errors.recipient.message}
-            </p>
-          )}
-        </Box>
-      </Stack>
-      <DialogActions>
-        <Button onClick={handleCloseModal}>Cancel</Button>
-        <Button variant="contained" disabled={!formState.isValid} type="submit">
-          Generate
-        </Button>
-      </DialogActions>
-    </form>
+    <FormProvider {...form}>
+      <form onSubmit={submit}>
+        <Stack spacing={2} sx={{ mt: 1 }}>
+          <Box>
+            <FormInput name="prompt" label="What should the email be about?" />
+          </Box>
+          <Box>
+            <FormInput name="recipient" label="Recipient business (optional)" />
+          </Box>
+        </Stack>
+        <DialogActions>
+          <Button onClick={handleCloseModal}>Cancel</Button>
+          <Button
+            variant="contained"
+            disabled={!formState.isValid}
+            type="submit"
+          >
+            Generate
+          </Button>
+        </DialogActions>
+      </form>
+    </FormProvider>
   );
 };
 

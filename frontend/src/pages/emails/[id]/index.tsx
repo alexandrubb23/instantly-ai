@@ -8,14 +8,12 @@ type Params = {
 
 export default function EmailPage() {
   const params = useParams<Params>();
-  const { data: email, isLoading, error } = useEmail(params.id);
-
-  if (isLoading) return <CircularProgress />;
+  const { data: email, isLoading, error } = useEmail(params?.id);
 
   if (error)
     return <Typography color="error">Failed to load email.</Typography>;
 
-  if (!email) return <Typography>No email found.</Typography>;
+  if (isLoading || !email) return <CircularProgress />;
 
   return (
     <Box p={3}>

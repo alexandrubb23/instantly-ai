@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
+import { Box, Button, IconButton, Stack } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 import AiModalAssistant from "~/components/chat/AiModalAssistant";
+import FormInput from "~/components/ui/form/FormInput";
 import SimpleSnackbar from "~/components/ui/Snackbar";
 import TypingIndicator from "~/components/ui/TypingIndicator";
 import type { Email } from "~/hooks/http/types/email.type";
@@ -19,24 +20,26 @@ const schema = z.object({
   to: z.email(),
   // TODO: Accepts multiple addresses separated by comma (",")
   cc: z.union([z.literal(""), z.email(), z.null()]),
+  // TODO: Accepts multiple addresses separated by comma (",")
   bcc: z.union([z.literal(""), z.email(), z.null()]),
   subject: z.string().min(2).max(100),
   body: z.string().min(10).max(1000),
 });
 
 export default function Home() {
-  const {
-    formState: { errors, isValid },
-    getValues,
-    handleSubmit,
-    register,
-    reset,
-    setValue,
-    watch,
-  } = useForm({
+  const form = useForm({
     resolver: zodResolver(schema),
     mode: "onChange",
   });
+
+  const {
+    formState: { isValid },
+    getValues,
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+  } = form;
 
   const [info, setInfo] = useState("");
   const [aiOpen, setAiOpen] = useState(false);
@@ -76,21 +79,16 @@ export default function Home() {
   const bodyVal = watch("body") || "";
 
   return (
-    <>
+    <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <Stack direction="row" spacing={1} alignItems="center">
             <Box sx={{ flex: 1 }}>
-              <TextField
-                {...register("to")}
+              <FormInput
+                name="to"
                 label="To"
-                fullWidth
-                InputLabelProps={{ shrink: true }}
                 placeholder="recipient@example.com"
               />
-              {errors.to?.message && (
-                <p style={{ color: "red", margin: 0 }}>{errors.to.message}</p>
-              )}
             </Box>
             <IconButton onClick={() => setAiOpen(true)} title="AI Draft">
               <AutoAwesomeIcon />
@@ -99,67 +97,36 @@ export default function Home() {
 
           <Stack direction="row" spacing={2}>
             <Box sx={{ flex: 1 }}>
-              <TextField
-                {...register("cc")}
-                label="CC"
-                placeholder="cc@example.com"
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-              />
-              {errors.cc?.message && (
-                <p style={{ color: "red", margin: 0 }}>{errors.cc.message}</p>
-              )}
+              <FormInput name="cc" label="CC" placeholder="cc@example.com" />
             </Box>
             <Box sx={{ flex: 1 }}>
-              <TextField
-                {...register("bcc")}
-                label="BCC"
-                fullWidth
-                placeholder="bcc@example.com"
-                InputLabelProps={{ shrink: true }}
-              />
-              {errors.bcc?.message && (
-                <p style={{ color: "red", margin: 0 }}>{errors.bcc.message}</p>
-              )}
+              <FormInput name="bcc" label="BCC" placeholder="bcc@example.com" />
             </Box>
           </Stack>
 
           <Box>
-            <TextField
-              {...register("subject")}
+            <FormInput
+              name="subject"
               label="Subject"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
               placeholder={subjectVal ? "" : "Short, clear subject"}
             />
-            {errors.subject?.message && (
-              <p style={{ color: "red", margin: 0 }}>
-                {errors.subject.message}
-              </p>
-            )}
           </Box>
 
           <Box>
-            <TextField
-              {...register("body")}
+            <FormInput
+              name="body"
               label="Body"
-              fullWidth
               multiline
-              minRows={8}
-              InputLabelProps={{ shrink: true }}
+              rows={10}
               placeholder={bodyVal ? "" : "Write your message…"}
             />
-            {errors.body?.message && (
-              <p style={{ color: "red", margin: 0 }}>{errors.body.message}</p>
-            )}
           </Box>
 
           <Box className="flex items-center gap-2 space justify-between">
             <Box>
               {isBotTyping && (
                 <Box className="flex items-center gap-2">
-                  🤖
-                  <TypingIndicator />
+                  🤖 <TypingIndicator />
                 </Box>
               )}
             </Box>
@@ -181,6 +148,6 @@ export default function Home() {
         onDelta={handleAIDelta}
         onBotTyping={setIsBotTyping}
       />
-    </>
+    </FormProvider>
   );
 }
