@@ -1,11 +1,10 @@
 // ESM
-import dotenv from "dotenv";
 import Fastify from "fastify";
 import ai from "./src/routes/ai.js";
 import emails from "./src/routes/emails.js";
 import routes from "./src/routes/index.js";
 
-dotenv.config();
+import './src/env.js';
 
 /**
  * @type {import('fastify').FastifyInstance} Instance of Fastify

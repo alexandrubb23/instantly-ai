@@ -1,6 +1,5 @@
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
-import { z } from "zod";
 
 export const aiService = {
   async draftEmail(reply, prompt, recipientBusiness) {
