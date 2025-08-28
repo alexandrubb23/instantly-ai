@@ -1,12 +1,5 @@
 # Instantly.AI Project Badges
 
-To start the server, run:
-
-```
-yarn run dev
-```
-from the root directory.
-
 ## Frontend Libraries
 
 <!-- Frontend Badges with different colors -->
@@ -43,6 +36,46 @@ from the root directory.
 > This file lists all major libraries used in the project with version badges for quick reference.
 
 ---
+
+## Getting Started
+
+1. **Clone the repository:**
+	```bash
+	git clone https://github.com/alexandrubb23/instantly-ai.git
+	cd instantly-ai
+	```
+
+2. **Install dependencies for both frontend and backend:**
+	```bash
+	yarn install
+	```
+
+3. **Set up environment variables for backend:**
+	- Go to the backend folder:
+	  ```bash
+	  cd backend
+	  cp .env.example .env
+	  ```
+	- Open `.env` and add your `OPENAI_API_KEY`:
+	  ```env
+	  OPENAI_API_KEY=your-openai-key-here
+	  ```
+
+4. **Run database migrations:**
+	```bash
+	yarn migrate
+	```
+
+5. **Return to the root folder:**
+	```bash
+	cd ..
+	```
+
+6. **Start both frontend and backend servers together:**
+	```bash
+	yarn run dev
+	```
+	This will start both servers. Frontend runs on [http://localhost:3000](http://localhost:3000), backend on [http://localhost:3001](http://localhost:3001).
 
 ## Assignment Description
 
