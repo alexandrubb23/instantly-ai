@@ -16,6 +16,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import SimpleSnackbar from "~/components/ui/Snackbar";
 import type { Email } from "~/hooks/http/types/email.type";
 import { EMAIL_QUERY_KEY } from "~/hooks/http/useEmails";
 
@@ -40,6 +41,7 @@ export default function Home() {
     mode: "onChange",
   });
 
+  const [info, setInfo] = useState("");
   const [aiOpen, setAiOpen] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
 
@@ -47,14 +49,13 @@ export default function Home() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await axios.post<Email>("/api/emails", data);
+      const res = await axios.post<Email>("/api/emails+", data);
 
       queryClient.setQueryData(EMAIL_QUERY_KEY, (old: Email[] | undefined) => [
         res.data,
         ...(old || []),
       ]);
-    } catch (error) {
-    } finally {
+
       reset({
         to: "",
         cc: "",
@@ -62,8 +63,14 @@ export default function Home() {
         subject: "",
         body: "",
       });
+
+      setInfo("✅ The email was added");
+    } catch (error) {
+      setInfo("❌ Something went wrong, please try again later.");
     }
   };
+
+  console.log({ info });
 
   return (
     <>
@@ -126,7 +133,9 @@ export default function Home() {
           </Box>
         </Stack>
       </form>
-
+      {info && (
+        <SimpleSnackbar message={info} open={!!info} snackbarKey={Date.now()} />
+      )}
       <Dialog open={aiOpen} onClose={() => setAiOpen(false)} fullWidth>
         <DialogTitle>AI ✨ Draft</DialogTitle>
         <DialogContent>
