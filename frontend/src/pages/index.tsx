@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import { Box, Button, IconButton, Stack } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 import AiModalAssistant from "~/components/chat/AiModalAssistant";
 import FormInput from "~/components/ui/form/FormInput";
+import SubmitButton from "~/components/ui/form/SubmitButton";
 import SimpleSnackbar from "~/components/ui/Snackbar";
 import TypingIndicator from "~/components/ui/TypingIndicator";
 import type { Email } from "~/hooks/http/types/email.type";
@@ -130,9 +131,7 @@ export default function Home() {
                 </Box>
               )}
             </Box>
-            <Button disabled={!isValid} type="submit" variant="contained">
-              Save
-            </Button>
+            <SubmitButton>Save</SubmitButton>
           </Box>
         </Stack>
       </form>

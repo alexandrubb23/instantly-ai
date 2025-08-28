@@ -3,6 +3,7 @@ import { Box, Button, DialogActions, Stack } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 import FormInput from "../ui/form/FormInput";
+import SubmitButton from "../ui/form/SubmitButton";
 
 export type AiFormData = z.infer<typeof schema>;
 
@@ -51,13 +52,7 @@ const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {
         </Stack>
         <DialogActions>
           <Button onClick={handleCloseModal}>Cancel</Button>
-          <Button
-            variant="contained"
-            disabled={!formState.isValid}
-            type="submit"
-          >
-            Generate
-          </Button>
+          <SubmitButton>Generate</SubmitButton>
         </DialogActions>
       </form>
     </FormProvider>
