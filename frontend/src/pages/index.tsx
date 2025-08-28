@@ -1,188 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import AiModalAssistant from "~/components/chat/AiModalAssistant";
 import SimpleSnackbar from "~/components/ui/Snackbar";
 import TypingIndicator from "~/components/ui/TypingIndicator";
 import type { Email } from "~/hooks/http/types/email.type";
 import { EMAIL_QUERY_KEY } from "~/hooks/http/useEmails";
 import { smartAppend } from "~/utils/smartAppend";
-
-type Props = {
-  aiOpen: boolean;
-  setAiOpen: (v: boolean) => void;
-  onStart: () => void; // close & clear fields (parent decides)
-  onDelta: (field: "subject" | "body", delta: string) => void;
-  onDone?: () => void;
-  onBotTyping: (is: boolean) => void;
-};
-
-type AiFormData = z.infer<typeof schemaAi>;
-
-const schemaAi = z.object({
-  prompt: z.string().min(2).max(100),
-  recipient: z.string().min(2).max(100).optional(),
-});
-
-function AiModalAssistant({
-  aiOpen,
-  setAiOpen,
-  onStart,
-  onDelta,
-  onDone,
-  onBotTyping,
-}: Props) {
-  const { register, formState, reset, handleSubmit } = useForm({
-    resolver: zodResolver(schemaAi),
-    mode: "onChange",
-  });
-
-  const { errors } = formState;
-  const abortControllerRef = useRef<AbortController | null>(null);
-
-  // Newline Delimited JSON
-  const streamNdjson = async (data: AiFormData, signal?: AbortSignal) => {
-    const res = await fetch("/api/ai/draft", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      signal: signal ?? null,
-    });
-
-    if (!res.body) return;
-
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-
-    let buf = "";
-
-    while (true) {
-      const { value, done } = await reader.read();
-
-      if (done) break;
-      buf += decoder.decode(value, { stream: true });
-
-      let idx: number;
-      while ((idx = buf.indexOf("\n")) >= 0) {
-        const line = buf.slice(0, idx).trim();
-        buf = buf.slice(idx + 1);
-
-        if (!line) continue;
-
-        try {
-          const evt = JSON.parse(line);
-
-          if (evt.event === "heartbeat") continue;
-
-          if (evt.event === "done") {
-            onDone?.();
-            continue;
-          }
-
-          if (evt.field && evt.delta) {
-            onDelta(evt.field, String(evt.delta));
-          }
-        } catch {
-          // TODO:Handle parsing error
-        }
-      }
-    }
-  };
-
-  const resetModalFields = () => {
-    reset({ prompt: "", recipient: "" });
-  };
-
-  const submit = handleSubmit(async (data) => {
-    onBotTyping(true);
-    // notify parent to close modal + clear form fields
-    onStart();
-
-    // start streaming
-    abortControllerRef.current?.abort();
-    abortControllerRef.current = new AbortController();
-
-    try {
-      const { prompt, recipient } = data;
-
-      await streamNdjson(
-        { prompt, recipient },
-        abortControllerRef.current.signal,
-      );
-    } finally {
-      abortControllerRef.current = null;
-      onBotTyping(false);
-    }
-
-    resetModalFields();
-  });
-
-  const onCloseModal = () => {
-    abortControllerRef.current?.abort();
-    setAiOpen(false);
-    resetModalFields();
-  };
-
-  return (
-    <Dialog open={aiOpen} onClose={onCloseModal} fullWidth>
-      <DialogTitle>AI ✨ Draft</DialogTitle>
-      <DialogContent>
-        <form onSubmit={submit}>
-          <Stack spacing={2} sx={{ mt: 1 }}>
-            <Box>
-              <TextField
-                {...register("prompt")}
-                fullWidth
-                label="What should the email be about?"
-              />
-              {errors.prompt?.message && (
-                <p style={{ color: "red", margin: 0 }}>
-                  {errors.prompt.message}
-                </p>
-              )}
-            </Box>
-            <Box>
-              <TextField
-                {...register("recipient")}
-                fullWidth
-                label="Recipient business (optional)"
-              />
-              {errors.recipient?.message && (
-                <p style={{ color: "red", margin: 0 }}>
-                  {errors.recipient.message}
-                </p>
-              )}
-            </Box>
-          </Stack>
-          <DialogActions>
-            <Button onClick={onCloseModal}>Cancel</Button>
-            <Button
-              variant="contained"
-              disabled={!formState.isValid}
-              type="submit"
-            >
-              Generate
-            </Button>
-          </DialogActions>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
-}
 
 type FormData = z.infer<typeof schema>;
 
@@ -197,13 +26,13 @@ const schema = z.object({
 
 export default function Home() {
   const {
-    register,
-    handleSubmit,
     formState: { errors, isValid },
+    getValues,
+    handleSubmit,
+    register,
     reset,
     setValue,
-    getValues,
-    watch, // 👈 for conditional placeholders
+    watch,
   } = useForm({
     resolver: zodResolver(schema),
     mode: "onChange",
