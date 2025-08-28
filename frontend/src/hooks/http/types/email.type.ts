@@ -1,8 +1,8 @@
 export type Email = {
   id: number;
   to: string;
-  cc: string;
-  bcc: string;
+  cc: string | null;
+  bcc: string | null;
   subject: string;
   body: string;
   created_at: string;

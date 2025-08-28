@@ -1,12 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import type { Email } from "./types/email.type";
 
-// A better approach here is to use Axios because it has a better API (cancellation, interceptors, etc.)
-// Let's use fetch for simplicity
 const findOne = async (id: number) => {
-  const res = await fetch(`/api/emails/${id}`);
-  if (!res.ok) throw new Error("Network response was not ok");
-  return res.json();
+  const res = await axios.get<Email>(`/api/emails/${id}`);
+  return res.data;
 };
 
 export const useEmail = (id: number) => {

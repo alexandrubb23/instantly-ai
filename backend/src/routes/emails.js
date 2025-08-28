@@ -16,7 +16,7 @@ const plugin = async (fastify) => {
   fastify.post("/", async (request, reply) => {
     const emailData = request.body;
 
-    const email = await emailRepository.create(emailData);
+    const [email] = await emailRepository.create(emailData);
     reply.status(201).send(email);
   });
 };
