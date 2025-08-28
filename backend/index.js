@@ -2,6 +2,7 @@
 import Fastify from 'fastify';
 import routes from './src/routes/index.js';
 import emails from './src/routes/emails.js';
+import ai from './src/routes/ai.js';
 
 /**
  * @type {import('fastify').FastifyInstance} Instance of Fastify
@@ -12,6 +13,7 @@ const fastify = Fastify({
 
 fastify.register(routes);
 fastify.register(emails, { prefix: '/emails' });
+fastify.register(ai, { prefix: '/ai' });
 
 fastify.listen({ port: process.env.PORT }, function (err, address) {
   if (err) {
