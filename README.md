@@ -1,61 +1,82 @@
-# Instantly.AI Coding Assignment for AI Engineers
+# Instantly.AI Project Badges
 
-# Assignment:
-Develop a simple web app allowing users to generate and send emails. The app should have the following features:  
+To start the server, run:
 
-## 1. Sidebar
-1. The main page should have a sidebar with a list of emails (Apple Mail style)
-2. When selecting an email from the sidebar, the selected email should be displayed on the right side of the screen
+```
+yarn run dev
+```
+from the root directory.
 
-## 2. Sending emails
-   * To
-   * CC
-   * BCC
-   * Subject
-   * Body
+## Frontend Libraries
 
-## 3. AI-Powered Email Drafting (LLM powered)
+<!-- Frontend Badges with different colors -->
+[![Next.js](https://img.shields.io/badge/Next.js-14.2.3-000?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev/)
+[![MUI](https://img.shields.io/badge/MUI-5.15.16-007FFF?logo=mui)](https://mui.com/)
+[![Emotion](https://img.shields.io/badge/Emotion-11.11.5-c76494?logo=emotion)](https://emotion.sh/docs/introduction)
+[![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-7.62.0-EC5990?logo=reacthookform)](https://react-hook-form.com/)
+[![Zod](https://img.shields.io/badge/Zod-4.1.4-8e44ad)](https://zod.dev/)
+[![TanStack React Query](https://img.shields.io/badge/TanStack%20React%20Query-5.85.5-ff4154?logo=reactquery)](https://tanstack.com/query/latest)
+[![Axios](https://img.shields.io/badge/Axios-1.11.0-5A29E4?logo=axios)](https://axios-http.com/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1.12-38B2AC?logo=tailwindcss)](https://tailwindcss.com/)
 
-•	Include a small “AI ✨” button in the compose form.
+## Backend Libraries
 
-•	When clicked, prompt the user (via modal/input) to describe what the email should be about (e.g., “Meeting request for Tuesday”).
+<!-- Backend Badges with different colors -->
+[![Fastify](https://img.shields.io/badge/Fastify-4.27.0-ffcf00?logo=fastify)](https://www.fastify.io/)
+[![Knex](https://img.shields.io/badge/Knex-3.1.0-6e4b3a?logo=knex)](https://knexjs.org/)
+[![SQLite3](https://img.shields.io/badge/SQLite3-5.1.7-003B57?logo=sqlite)](https://www.npmjs.com/package/sqlite3)
+[![Dotenv](https://img.shields.io/badge/dotenv-17.2.1-10a37f?logo=dotenv)](https://github.com/motdotla/dotenv)
+[![AI SDK OpenAI](https://img.shields.io/badge/@ai--sdk/openai-2.0.22-412991?logo=openai)](https://www.npmjs.com/package/@ai-sdk/openai)
+[![AI](https://img.shields.io/badge/ai-5.0.27-0b3d91)](https://www.npmjs.com/package/ai)
+[![Add](https://img.shields.io/badge/add-2.0.6-ff9800)](https://www.npmjs.com/package/add)
+[![Zod](https://img.shields.io/badge/Zod-4.1.4-8e44ad)](https://zod.dev/)
+## Dev Tools
 
-•	Based on the user’s prompt, a router assistant should decide which specialized assistant should generate the email. Implement the following assistant types:
+<!-- Dev Tools Badges with different colors -->
+[![Nodemon](https://img.shields.io/badge/Nodemon-3.1.9-76D04B?logo=nodemon)](https://nodemon.io/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-3178c6?logo=typescript)](https://www.typescriptlang.org/)
+[![ESLint](https://img.shields.io/badge/ESLint-8-4B32C3?logo=eslint)](https://eslint.org/)
 
-	1.	Sales Assistant – Generates sales emails, tailored to the recipient business description. (Keep the email under 40 words total. So it can be read under 10 seconds., max 7-10 words/sentence)
-   
-	2.	Follow-up Assistant – Specializes in generating polite follow-up emails (e.g., “just checking in”).
+---
 
-•	The router assistant should analyze the input and delegate the generation task to the correct assistant. 
+> This file lists all major libraries used in the project with version badges for quick reference.
 
-•	Use a separate model call with a system prompt that routes based on classification logic.
+---
 
-•	The selected assistant should stream the generated content into both the Subject and Body fields.
+## Assignment Description
 
-•	Allow the user to edit both fields after generation.
+This project is a coding assignment for AI engineers. The goal is to build a simple web app that allows users to generate and save emails, featuring:
 
+- A sidebar with a list of emails (Apple Mail style)
+- A compose form with To, CC, BCC, Subject, and Body fields
+- An AI-powered drafting assistant that routes prompts to specialized assistants (Sales or Follow-up) and streams generated content into the form
+- All emails are saved in the database (no actual sending required)
+- Built as a monorepo with Next.js frontend and Fastify backend
+- Uses MUI for frontend design
 
-# Notes:
-1. No need to actually send the email - it's enough to save it in the database
-2. Do not spend more than 1h on this assignment, just do as much as you can in that time
-3. Please remove the `.next` folder before sending the task
-4. Please remove the `dev.sqlite3` folder before sending the task
-5. Please remove the `node_modules` folders before sending the task
-6. Please remove any other ignored files before sending the task
+See the assignment instructions and test cases in the original README for more details.
 
-# Structure
-This is a monorepo. It has two folders:  
-1. `frontend`: This is the frontend of the application. It is built using Next.js.  
-2. `backend`: This is the backend of the application. It is built using Fastify.
+## Limited time offer
 
-# Setup
-1. `cd frontend` - Go to the frontend folder
-2. `yarn install` - Install the dependencies
-3. `yarn dev` - Start the development server (http://localhost:3000)
-4. `cd ../backend` - Go to the backend folder
-5. `yarn install` - Install the dependencies
-6. `yarn migrate` - Run the knex db migrations
-7. `yarn dev` - Start the development server (http://localhost:3001)
+```bash
+Share exclusive 20% discount on SaaS subscription plan
+```
 
-# Design
-1. [MUI](https://mui.com/) is installed and used for the design of the frontend.
+## Consulting services
+
+```bash
+Present our data analytics services to optimize supply chain
+```
+
+## Demo invitation
+
+```bash
+Invite to schedule a product demo for cloud security platform
+```
+
+## Partnership opportunity
+
+```bash
+Reach out about potential partnership with our fintech platform
+```
