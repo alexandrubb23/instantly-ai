@@ -1,12 +1,8 @@
-const knex = require('knex')({
-  client: 'sqlite3', // or 'better-sqlite3'
+import knexFactory from "knex";
+
+export const knex = knexFactory({
+  client: "sqlite3",
   connection: {
-    filename: './db.sqlite',
+    filename: "./dev.sqlite3",
   },
 });
-
-class DB {
-  static async addLead(data) {
-    return knex('leads').insert(data);
-  }
-}

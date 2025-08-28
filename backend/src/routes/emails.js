@@ -1,17 +1,23 @@
+import { knex } from "../db/index.js";
 
 const plugin = async (fastify) => {
   fastify.get("/", async (request, reply) => {
-    console.log("Fetching emails...");
+    const result = await knex("emails").select("*");
+    reply.send(result);
   });
 
-  fastify.get('/:id', async (request, reply) => {
+  fastify.get("/:id", async (request, reply) => {
     const { id } = request.params;
-    console.log(`Fetching email with ID: ${id}`);
+
+    const result = await knex("emails").select("*").where({ id }).first();
+    reply.send(result);
   });
 
-  fastify.post('/', async (request, reply) => {
+  fastify.post("/", async (request, reply) => {
     const emailData = request.body;
-    console.log("Creating email:", emailData);
+
+    const [id] = await knex("emails").insert(emailData).returning("id");
+    reply.status(201).send({ id });
   });
 };
 
