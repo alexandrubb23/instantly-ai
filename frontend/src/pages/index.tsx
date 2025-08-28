@@ -3,7 +3,7 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import AiModalAssistant from "~/components/chat/AiModalAssistant";
@@ -38,8 +38,6 @@ export default function Home() {
     mode: "onChange",
   });
 
-  const bodyRef = useRef<HTMLInputElement | null>(null);
-
   const [info, setInfo] = useState("");
   const [aiOpen, setAiOpen] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
@@ -62,7 +60,6 @@ export default function Home() {
     }
   };
 
-  // Called by the modal right when "Generate" is pressed
   const handleAIStart = () => {
     setValue("subject", "", { shouldDirty: true });
     setValue("body", "", { shouldDirty: true });
@@ -73,11 +70,6 @@ export default function Home() {
     const curr = getValues(field) ?? "";
     const next = smartAppend(curr, delta);
     setValue(field, next, { shouldDirty: true, shouldValidate: true });
-  };
-
-  const handleAIDone = () => {
-    // Optional: place cursor at end of body, or keep as-is
-    setTimeout(() => bodyRef.current?.focus(), 0);
   };
 
   // For conditional placeholders (optional)
@@ -188,7 +180,6 @@ export default function Home() {
         setAiOpen={setAiOpen}
         onStart={handleAIStart}
         onDelta={handleAIDelta}
-        onDone={handleAIDone}
         onBotTyping={setIsBotTyping}
       />
     </>

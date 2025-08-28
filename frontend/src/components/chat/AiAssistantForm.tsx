@@ -11,8 +11,8 @@ const schema = z.object({
 });
 
 type Props = {
-  onSubmit: (data: FormData) => void;
   onCloseModal: () => void;
+  onSubmit: (data: FormData) => void;
 };
 
 const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {
@@ -31,6 +31,11 @@ const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {
     onSubmit(data);
     resetModalFields();
   });
+
+  const handleCloseModal = () => {
+    onCloseModal();
+    resetModalFields();
+  };
 
   return (
     <form onSubmit={submit}>
@@ -59,14 +64,7 @@ const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {
         </Box>
       </Stack>
       <DialogActions>
-        <Button
-          onClick={() => {
-            onCloseModal();
-            resetModalFields();
-          }}
-        >
-          Cancel
-        </Button>
+        <Button onClick={handleCloseModal}>Cancel</Button>
         <Button variant="contained" disabled={!formState.isValid} type="submit">
           Generate
         </Button>
