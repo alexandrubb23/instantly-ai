@@ -1,23 +1,23 @@
-import { knex } from "../db/index.js";
+import { emailRepository } from "../repositories/email.repository.js";
 
 const plugin = async (fastify) => {
   fastify.get("/", async (request, reply) => {
-    const result = await knex("emails").select("*");
+    const result = await emailRepository.findAll();
     reply.send(result);
   });
 
   fastify.get("/:id", async (request, reply) => {
     const { id } = request.params;
 
-    const result = await knex("emails").select("*").where({ id }).first();
+    const result = await emailRepository.findById(id);
     reply.send(result);
   });
 
   fastify.post("/", async (request, reply) => {
     const emailData = request.body;
 
-    const [id] = await knex("emails").insert(emailData).returning("id");
-    reply.status(201).send({ id });
+    const email = await emailRepository.create(emailData);
+    reply.status(201).send(email);
   });
 };
 
