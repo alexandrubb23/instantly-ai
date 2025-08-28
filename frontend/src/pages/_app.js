@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
       <Header />
       <Box sx={{ display: "flex", height: "100vh" }}>
         <Sidebar />
-        <Box sx={{ flex: 1, p: 3, ml: "320px" }}>
+        <Box sx={{ flex: 1, p: 3, ml: "230px" }}>
           <main>
             <Component {...pageProps} />
           </main>
