@@ -3,16 +3,16 @@ import { Box, Button, DialogActions, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
-type FormData = z.infer<typeof schema>;
+export type AiFormData = z.infer<typeof schema>;
 
 const schema = z.object({
   prompt: z.string().min(2).max(100),
-  recipient: z.string().min(2).max(100).optional(),
+  recipient: z.union([z.string().min(2).max(100), z.literal(""), z.null()]),
 });
 
 type Props = {
   onCloseModal: () => void;
-  onSubmit: (data: FormData) => void;
+  onSubmit: (data: AiFormData) => void;
 };
 
 const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {

@@ -1,7 +1,6 @@
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { useRef } from "react";
-import z from "zod";
-import AiAssistantForm from "./AiAssistantForm";
+import AiAssistantForm, { type AiFormData } from "./AiAssistantForm";
 
 type Props = {
   aiOpen: boolean;
@@ -11,13 +10,6 @@ type Props = {
   onDone?: () => void;
   onBotTyping: (is: boolean) => void;
 };
-
-type FormData = z.infer<typeof schema>;
-
-const schema = z.object({
-  prompt: z.string().min(2).max(100),
-  recipient: z.string().min(2).max(100).optional(),
-});
 
 const AiModalAssistant = ({
   aiOpen,
@@ -29,7 +21,7 @@ const AiModalAssistant = ({
 }: Props) => {
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const streamNdjson = async (data: FormData, signal?: AbortSignal) => {
+  const streamNdjson = async (data: AiFormData, signal?: AbortSignal) => {
     const res = await fetch("/api/ai/draft", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -77,7 +69,7 @@ const AiModalAssistant = ({
     }
   };
 
-  const submit = async (data: FormData) => {
+  const submit = async (data: AiFormData) => {
     onStart();
     onBotTyping(true);
 

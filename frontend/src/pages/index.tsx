@@ -72,7 +72,6 @@ export default function Home() {
     setValue(field, next, { shouldDirty: true, shouldValidate: true });
   };
 
-  // For conditional placeholders (optional)
   const subjectVal = watch("subject") || "";
   const bodyVal = watch("body") || "";
 
