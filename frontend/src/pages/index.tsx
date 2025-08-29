@@ -111,6 +111,7 @@ export default function Home() {
               name="subject"
               label="Subject"
               placeholder={subjectVal ? "" : "Short, clear subject"}
+              disabled={isBotTyping}
             />
           </Box>
 
@@ -121,6 +122,7 @@ export default function Home() {
               multiline
               rows={10}
               placeholder={bodyVal ? "" : "Write your message…"}
+              disabled={isBotTyping}
             />
           </Box>
 
