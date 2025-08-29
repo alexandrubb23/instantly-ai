@@ -1,5 +1,8 @@
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+
 import { keyframes } from "@mui/system";
+import BotIcon from "./BotIcon";
+import { Tooltip } from "./Tooltip";
 
 const sparkle = keyframes`
   0%   { transform: scale(1) rotate(0deg); opacity: 1; box-shadow: 0 0 0px gold; }
@@ -11,20 +14,32 @@ const sparkle = keyframes`
 
 const AiAssistantIcon = ({ aiOpen }: { aiOpen: boolean }) => {
   const active = !aiOpen; // glow only when modal is closed
+
+  const title = (
+    <div className="text-sm">
+      Hey, my name is <BotIcon /> <br />I can generate an{" "}
+      <strong>email subject</strong> <br />
+      and <strong>body</strong> if you prompt me well!
+    </div>
+  );
+
   return (
-    <AutoAwesomeIcon
-      sx={{
-        color: "#FFD700",
-        borderRadius: "50%",
-        padding: "4px",
-        boxShadow: active ? "0 0 12px gold" : "none",
-        animation: active ? `${sparkle} 2.5s ease-in-out infinite` : "none",
-        // Respect reduced motion
-        "@media (prefers-reduced-motion: reduce)": {
-          animation: "none",
-        },
-      }}
-    />
+    <Tooltip title={title}>
+      <AutoAwesomeIcon
+        sx={{
+          background: "black",
+          color: "#FFD700",
+          borderRadius: "50%",
+          padding: "4px",
+          boxShadow: active ? "0 0 12px gold" : "none",
+          animation: active ? `${sparkle} 2.5s ease-in-out infinite` : "none",
+          // Respect reduced motion
+          "@media (prefers-reduced-motion: reduce)": {
+            animation: "none",
+          },
+        }}
+      />
+    </Tooltip>
   );
 };
 
