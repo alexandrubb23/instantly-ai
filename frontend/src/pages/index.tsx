@@ -92,9 +92,6 @@ export default function Home() {
                 placeholder="recipient@example.com"
               />
             </Box>
-            <IconButton onClick={() => setAiOpen(true)} title="AI Draft">
-              <AiAssistantIcon aiOpen={aiOpen} />
-            </IconButton>
           </Stack>
 
           <Stack direction="row" spacing={2}>
@@ -112,6 +109,13 @@ export default function Home() {
               label="Subject"
               placeholder={subjectVal ? "" : "Short, clear subject"}
               disabled={isBotTyping}
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={() => setAiOpen(true)} title="AI Draft">
+                    <AiAssistantIcon aiOpen={aiOpen} />
+                  </IconButton>
+                ),
+              }}
             />
           </Box>
 
