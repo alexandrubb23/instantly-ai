@@ -7,6 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 import AiModalAssistant from "~/components/chat/AiModalAssistant";
 import AiAssistantIcon from "~/components/ui/AiAssistantIcon";
+import BotIcon from "~/components/ui/BotIcon";
 import FormInput from "~/components/ui/form/FormInput";
 import SubmitButton from "~/components/ui/form/SubmitButton";
 import SimpleSnackbar from "~/components/ui/Snackbar";
@@ -135,7 +136,7 @@ export default function Home() {
               {error && <p className="text-red-500">{error}</p>}
               {isBotTyping && (
                 <Box className="flex items-center gap-2">
-                  🤖 <TypingIndicator />
+                  <BotIcon className="text-3xl" /> <TypingIndicator />
                 </Box>
               )}
             </Box>
