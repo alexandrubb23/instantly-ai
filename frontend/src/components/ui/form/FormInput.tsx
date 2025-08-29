@@ -1,22 +1,16 @@
-import { Box, TextField } from "@mui/material";
+import { Alert, Box, TextField } from "@mui/material";
 import { useFormContext, type Path } from "react-hook-form";
+import ErrorMessage from "./ErrorMessage";
 
-type TextFieldProps<T extends Record<string, unknown>> = React.ComponentProps<
-  typeof TextField
-> & {
-  name: keyof T & string;
+type TextFieldProps = React.ComponentProps<typeof TextField> & {
+  name: string;
 };
 
 const FormInput = <T extends Record<string, unknown>>({
   name,
   ...props
-}: TextFieldProps<T>) => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<T>();
-
-  const error = errors[name];
+}: TextFieldProps) => {
+  const { register } = useFormContext<T>();
 
   return (
     <Box>
@@ -26,10 +20,7 @@ const FormInput = <T extends Record<string, unknown>>({
         InputLabelProps={{ shrink: true }}
         {...props}
       />
-
-      {error?.message && (
-        <p style={{ color: "red", margin: 0 }}>{error.message as string}</p>
-      )}
+      <ErrorMessage name={name} />
     </Box>
   );
 };
