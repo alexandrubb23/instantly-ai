@@ -10,11 +10,10 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <Drawer
+        className="w-[320px] shrink-0"
         variant="permanent"
         anchor="left"
         sx={{
-          width: 320,
-          flexShrink: 0,
           "& .MuiDrawer-paper": { width: 320, boxSizing: "border-box" },
         }}
       >

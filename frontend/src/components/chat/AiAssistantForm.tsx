@@ -42,7 +42,7 @@ const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {
   return (
     <FormProvider {...form}>
       <form onSubmit={submit}>
-        <Stack spacing={2} sx={{ mt: 1 }}>
+        <Stack spacing={2}>
           <Box>
             <FormInput name="prompt" label="What should the email be about?" />
           </Box>

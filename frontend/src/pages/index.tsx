@@ -85,7 +85,7 @@ export default function Home() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <Stack direction="row" spacing={1} alignItems="center">
-            <Box sx={{ flex: 1 }}>
+            <Box className="flex-1">
               <FormInput
                 name="to"
                 label="To"
@@ -98,10 +98,10 @@ export default function Home() {
           </Stack>
 
           <Stack direction="row" spacing={2}>
-            <Box sx={{ flex: 1 }}>
+            <Box className="flex-1">
               <FormInput name="cc" label="CC" placeholder="cc@example.com" />
             </Box>
-            <Box sx={{ flex: 1 }}>
+            <Box className="flex-1">
               <FormInput name="bcc" label="BCC" placeholder="bcc@example.com" />
             </Box>
           </Stack>
