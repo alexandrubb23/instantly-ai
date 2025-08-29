@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { Box, IconButton, Stack } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -7,6 +6,7 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 import AiModalAssistant from "~/components/chat/AiModalAssistant";
+import AiAssistantIcon from "~/components/ui/AiAssistantIcon";
 import FormInput from "~/components/ui/form/FormInput";
 import SubmitButton from "~/components/ui/form/SubmitButton";
 import SimpleSnackbar from "~/components/ui/Snackbar";
@@ -93,7 +93,7 @@ export default function Home() {
               />
             </Box>
             <IconButton onClick={() => setAiOpen(true)} title="AI Draft">
-              <AutoAwesomeIcon />
+              <AiAssistantIcon aiOpen={aiOpen} />
             </IconButton>
           </Stack>
 
