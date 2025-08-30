@@ -21,22 +21,19 @@ const AiAssistantForm = ({ onSubmit, onCloseModal }: Props) => {
   const form = useForm({
     resolver: zodResolver(schema),
     mode: "onChange",
+    defaultValues: { prompt: "", recipient: "" },
   });
 
-  const { formState, reset, handleSubmit } = form;
-
-  const resetModalFields = () => {
-    reset({ prompt: "", recipient: "" });
-  };
+  const { reset, handleSubmit } = form;
 
   const submit = handleSubmit((data) => {
     onSubmit(data);
-    resetModalFields();
+    reset();
   });
 
   const handleCloseModal = () => {
     onCloseModal();
-    resetModalFields();
+    reset();
   };
 
   return (
