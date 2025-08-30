@@ -7,9 +7,15 @@ type Props = {
   message: string;
   open: boolean;
   snackbarKey?: number;
+  onClose: () => void;
 };
 
-export default function SimpleSnackbar({ message, open, snackbarKey }: Props) {
+export default function SimpleSnackbar({
+  message,
+  open,
+  snackbarKey,
+  onClose,
+}: Props) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -22,6 +28,7 @@ export default function SimpleSnackbar({ message, open, snackbarKey }: Props) {
   ) => {
     if (reason === "clickaway") return;
     setShow(false);
+    onClose();
   };
 
   const action = (

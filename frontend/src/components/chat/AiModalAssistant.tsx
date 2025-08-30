@@ -1,11 +1,12 @@
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { useRef } from "react";
 import AiAssistantForm, { type AiFormData } from "./AiAssistantForm";
+import type { DeltaField } from "../EmailForm/EmailFormContainer";
 
 type Props = {
   aiOpen: boolean;
   onBotTyping: (is: boolean) => void;
-  onDelta: (field: "subject" | "body", delta: string) => void;
+  onDelta: (field: DeltaField, delta: string) => void;
   onDone?: () => void;
   onError: (error: string) => void;
   onStart: () => void;
