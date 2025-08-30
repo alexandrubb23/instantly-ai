@@ -7,7 +7,7 @@ import FormInput from "~/components/ui/form/FormInput";
 import SubmitButton from "~/components/ui/form/SubmitButton";
 import SimpleSnackbar from "~/components/ui/Snackbar";
 import TypingIndicator from "~/components/ui/TypingIndicator";
-import type { DeltaField } from "./EmailForm/EmailFormContainer";
+import type { DeltaField } from "./EmailFormContainer";
 
 type Props = {
   onSubmit: React.FormEventHandler<HTMLFormElement>;

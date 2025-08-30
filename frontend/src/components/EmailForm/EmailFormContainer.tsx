@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-import EmailForm from "../EmailForm";
+import EmailForm from "./EmailForm";
 import { smartAppend } from "~/utils/smartAppend";
 import { EMAIL_QUERY_KEY } from "~/hooks/http/useEmails";
 
@@ -66,25 +66,23 @@ export default function EmailFormContainer() {
   const bodyVal = watch("body") || "";
 
   return (
-    <>
-      <FormProvider {...form}>
-        <EmailForm
-          onSubmit={handleSubmit}
-          info={info}
-          setInfo={setInfo}
-          error={error}
-          setError={setError}
-          aiOpen={aiOpen}
-          setAiOpen={setAiOpen}
-          onAIStart={handleAIStart}
-          onAIDelta={handleAIDelta}
-          isBotTyping={isBotTyping}
-          setIsBotTyping={setIsBotTyping}
-          subjectVal={subjectVal}
-          bodyVal={bodyVal}
-          submitting={mutation.isPending}
-        />
-      </FormProvider>
-    </>
+    <FormProvider {...form}>
+      <EmailForm
+        onSubmit={handleSubmit}
+        info={info}
+        setInfo={setInfo}
+        error={error}
+        setError={setError}
+        aiOpen={aiOpen}
+        setAiOpen={setAiOpen}
+        onAIStart={handleAIStart}
+        onAIDelta={handleAIDelta}
+        isBotTyping={isBotTyping}
+        setIsBotTyping={setIsBotTyping}
+        subjectVal={subjectVal}
+        bodyVal={bodyVal}
+        submitting={mutation.isPending}
+      />
+    </FormProvider>
   );
 }
